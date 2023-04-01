@@ -1,0 +1,37 @@
+---
+- name: Install and start Apache web server
+  hosts: all
+  become: true
+
+  tasks:
+
+  - name: Install httpd on Amazon Linux 2
+    yum:
+      name: httpd
+      state: present
+    when: "'amazon' in ansible_distribution.lower() and ansible_distribution_major_version == '2'"
+
+  - name: Install httpd on RedHat
+    yum:
+      name: httpd
+      state: present
+    when: "'Red Hat' in ansible_distribution"
+
+  - name: Install apache2 on Ubuntu
+    apt:
+      name: apache2
+      state: present
+    when: "'Ubuntu' in ansible_distribution"
+
+  - name: Start httpd on Amazon Linux 2 and RedHat
+    systemd:
+      name: httpd
+      state: started
+    when: "'amazon' in ansible_distribution.lower() and ansible_distribution_major_version == '2' or 'Red Hat' in ansible_distribution"
+
+  - name: Start apache2 on Ubuntu
+    systemd:
+      name: apache2
+      state: started
+    when: "'Ubuntu' in ansible_distribution"
+

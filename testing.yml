@@ -1,0 +1,38 @@
+---
+- name: Install tomcat
+  hosts: all
+  become: true
+  tasks:
+  - name: install java on redhat
+    dnf:
+      name: java
+      state: present
+    when: ansible_facts['os_family'] == "Redhat"
+  - name: install java on ubuntu
+    apt:
+      name: default-jdk
+      state: present
+    when: ansible_facts['os_family'] == "Debian"
+  - name: Set JAVA_HOME environment variable
+    shell: echo 'export JAVA_HOME=/usr/lib/jvm/default-java' >> /etc/profile.d/java.sh
+    args:
+      executable: /bin/bash
+      creates: /etc/profile.d/java.sh
+  - name: Download tomcat
+    get_url:
+      url: https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.87/bin/apache-tomcat-8.5.87.tar.gz
+      dest: /opt
+  - name: unzip tomcat
+    unarchive:
+      src: /opt/apache-tomcat-8.5.87.tar.gz
+      dest: /opt
+      remote_src: yes
+  - name: add execution permission
+    file:
+      path: /opt/apache-tomcat-8.5.87/bin/startup.sh
+      mode: 0777
+  - name: start tomcat service
+    shell: nohup ./startup.sh
+    args:
+      chdir: /opt/apache-tomcat-8.5.87/bin
+

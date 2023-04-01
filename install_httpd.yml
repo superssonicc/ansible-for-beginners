@@ -1,0 +1,13 @@
+---
+- name: installing httpd
+  hosts: amazon
+    #  become: true
+  tasks: 
+  - name: Install package
+    dnf:
+      name: httpd
+      state: installed
+  - name: Start httpd
+    service:
+      name: httpd
+      state: started

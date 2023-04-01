@@ -1,0 +1,6 @@
+---
+- name: Install apache on all servers
+  hosts: all
+  become: true
+  roles:
+    - setup-apache 

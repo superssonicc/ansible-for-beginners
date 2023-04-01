@@ -1,0 +1,12 @@
+---
+- name: copy index file
+  hosts: all
+  become: true
+  tasks: 
+  - name: copy file
+    copy:
+      src: /home/anadi/index.html
+      dest: /opt/
+      mode: 600
+      owner: john
+

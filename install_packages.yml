@@ -1,0 +1,16 @@
+---
+- name: installing git
+  hosts: amazon
+  become: true
+  tasks: 
+  - name: Install package
+    dnf:
+      name: '{{ item }}'
+      state: installed
+    with_items: 
+        - git
+        - make
+        - gcc
+        - wget
+        - telnet
+        - gzip

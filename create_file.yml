@@ -1,0 +1,10 @@
+---
+- name: creating file
+  hosts: all
+  become: true
+  gather_facts: no
+  tasks:
+  - name: creating demo.txt
+    file:
+      path: /home/anadi/direct1
+      state: directory

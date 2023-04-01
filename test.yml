@@ -1,0 +1,18 @@
+- name: Playbook Name
+  hosts: amazon
+  gather_facts: yes
+  tasks:
+    - name: Task Name
+      debug:
+        var: ansible_distribution
+    - name: stop httpd
+      service:
+        name: httpd
+        state: stopped
+      when: ansible_distribution == "RedHat"
+    - name: uninstall httpd
+      package:
+        name: httpd
+        state: absent
+      when: ansible_distribution == "RedHat"
+

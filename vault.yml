@@ -1,0 +1,11 @@
+---
+- name: cloning repo
+  hosts: all
+  become: true
+  vars_files: 
+    - secure-pass.yml
+  tasks:
+  - name: clone repo
+    git:
+      repo: https://supersonicc:{{ github_token }}@github.com/superssonicc/ansible-vault.git
+      dest: /home/anadi/test-vault 
